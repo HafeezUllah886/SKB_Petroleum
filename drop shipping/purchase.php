@@ -19,7 +19,7 @@ include("supported/session.php");
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/selectize-bootstrap4-theme@2.0.2/dist/css/selectize.bootstrap4.min.css">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -114,7 +114,7 @@ include("supported/session.php");
                                         <div class="col-xl-3 col-md-6 mb-4">
                                             <div class="form-group">
                                                 <label for="sup">Supplier</label>
-                                                <select class="form-control form-control-user" id="sup" name="sup">
+                                                <select class="form-control form-control-user selectize" id="sup" name="sup">
                                                    <?php
                                                         $get_sup = mysqli_query($con, "select id, name from accounts where type='supplier' and status = 'active'");
                                                         while($sup = mysqli_fetch_array($get_sup))
@@ -148,7 +148,7 @@ include("supported/session.php");
                                         <div class="col-xl-3 col-md-6 mb-4">
                                             <div class="form-group">
                                                 <label for="cus">Customer</label>
-                                                <select class="form-control form-control-user" id="cus" name="cus">
+                                                <select class="form-control form-control-user selectize" id="cus" name="cus">
                                                    <?php
                                                         $get_cus = mysqli_query($con, "select id, name from accounts where type = 'customer' and status = 'active'");
                                                         while($cus = mysqli_fetch_array($get_cus))
@@ -210,7 +210,7 @@ include("supported/session.php");
                                         <div class="col-xl-3 col-md-6 mb-4">
                                             <div class="form-group">
                                             <label for="froma">Account</label>
-                                            <select class="form-control form-control-user" name="afrom">
+                                            <select class="form-control form-control-user selectize" name="afrom">
                                                 <?php 
                                                     $acct = mysqli_query($con, "select * from accounts where type = 'business' and status = 'Active'");
                                                     while($op = mysqli_fetch_array($acct))
@@ -241,7 +241,7 @@ include("supported/session.php");
                                         <div class="col-xl-3 col-md-6 mb-4">
                                             <div class="form-group">
                                                 <label for="c_post">Check Post</label>
-                                                <select class="form-control form-control-user" id="c_post" name="c_post">
+                                                <select class="form-control form-control-user selectize" id="c_post" name="c_post">
                                                 <?php
                                                         $get_post = mysqli_query($con, "select * from accounts where type='post'");
                                                         while($post = mysqli_fetch_array($get_post))
@@ -272,7 +272,7 @@ include("supported/session.php");
                                         <div class="col-xl-2 col-md-6 mb-4">
                                             <div class="form-group">
                                             <label for="btn"> </label>
-                                                <p class="btn btn-primary form-control form-control-user" id="add">Add</p>
+                                            <a href="#" class="btn btn-primary form-control form-control-user" id="add">Add</a>
                                             </div>
                                         
                                         </div>
@@ -342,15 +342,28 @@ include("supported/session.php");
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+    
 
 </body>
 <script>
-
+ document.addEventListener('DOMContentLoaded', function() {
+            var anchor = document.getElementById('add');
+            anchor.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default behavior
+            });
+        });
     
     $(document).ready(function (){
+        $(".selectize").selectize();
         get_veh();
         get_rates();
-        get_rout()
+        get_rout();
     });
 
     $("#save").click(function (){

@@ -19,7 +19,7 @@ include("supported/session.php");
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/selectize-bootstrap4-theme@2.0.2/dist/css/selectize.bootstrap4.min.css">
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -84,7 +84,7 @@ include("supported/session.php");
                                         <div class="col-xl-3 col-md-6 mb-4">
                                             <div class="form-group">
                                                 <label for="sup">Supplier</label>
-                                                <select class="form-control form-control-user" id="sup" name="sup">
+                                                <select class="form-control form-control-user selectize" id="sup" name="sup">
                                                    <?php
                                                         $get_sup = mysqli_query($con, "select id, name from ppmaccounts where type='supplier' and status = 'active'");
                                                         while($sup = mysqli_fetch_array($get_sup))
@@ -223,13 +223,19 @@ include("supported/session.php");
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 
 </body>
 <script>
 
     
     $(document).ready(function (){
-  
+        $(".selectize").selectize();
     });
 
     $("#save").click(function (){
@@ -266,7 +272,7 @@ $("#purchase-form").submit(function (){
    
     return false;
 });
-
+ 
 </script>
 
 </html>

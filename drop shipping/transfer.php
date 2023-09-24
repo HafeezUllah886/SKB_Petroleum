@@ -24,6 +24,7 @@ include("supported/connect.php");
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/selectize-bootstrap4-theme@2.0.2/dist/css/selectize.bootstrap4.min.css">
 
 </head>
 
@@ -156,7 +157,7 @@ include("supported/connect.php");
                     </div>
                     <div class="form-group">
                         <label for="from">From</label>
-                        <select class="form-control form-control-user" name="from">
+                        <select class="form-control form-control-user selectize" name="from">
                         <optgroup label="Business">
                            <?php 
                                 $acct = mysqli_query($con, "select * from accounts where type = 'business' and status = 'Active'");
@@ -183,7 +184,7 @@ include("supported/connect.php");
                     </div>
                     <div class="form-group">
                         <label for="acct_no">To</label>
-                        <select class="form-control form-control-user" name="to">
+                        <select class="form-control form-control-user selectize" name="to">
                         <optgroup label="Business">
                            <?php 
                                 $acct2 = mysqli_query($con, "select * from accounts where type = 'business' and status = 'Active'");
@@ -250,6 +251,12 @@ include("supported/connect.php");
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
    <!-- Page level plugins -->
+   <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 
 </body>
 <script>
@@ -269,6 +276,7 @@ $("#from").change(function (){
     //Start of Document Ready
     $(document).ready(function (){
         get_transfer();
+        $(".selectize").selectize();
     });
     //End of Document Ready
     //Start of Edit Modal

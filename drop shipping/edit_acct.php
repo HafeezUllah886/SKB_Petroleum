@@ -11,7 +11,7 @@ include("supported/session.php");
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Drop Shipping - Drivers</title>
+    <title>Drop Shipping - Accounts</title>
 
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
@@ -53,7 +53,7 @@ include("supported/session.php");
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Drivers</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Business Accounts</h1>
                         
                     </div>
 
@@ -70,13 +70,36 @@ include("supported/session.php");
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Details</h6>
-                                    <div class="dropdown no-arrow">
-                                        <p class="btn btn-info btn-sm" role="button" id="add_sup" data-toggle="modal" data-target="#add-driv">Add New</p>
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
-                                <div class="card-body" id="show_driv">
-                               
+                                <div class="card-body" >
+                                <?php
+                                    include("supported/connect.php");
+                                    $id = $_GET['id'];
+                                    $get_e_acct = mysqli_query($con, "select * from accounts where id = '$id'");
+                                    $e_data = mysqli_fetch_array($get_e_acct);
+                                    $status = $e_data['status'];
+                                    ?>
+                                    <form id="acct_e_form" method="post">
+                                    <div class="form-group">
+                                        <label for="acct_e_title">Title</label>
+                                        <input type="hidden" value="<?php echo $e_data['id']; ?>" id="acct_e_id" name="acct_e_id">
+                                        <input type="text" value="<?php echo $e_data['name']; ?>" required class="form-control form-control-user" placeholder="Enter Driver Name" id="acct_e_title" name="acct_e_title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="acct_e_no">Account No.</label>
+                                        <input type="text" value="<?php echo $e_data['acct_no'];?>" required class="form-control form-control-user" placeholder="Enter Driver Contact No." id="acct_e_no" name="acct_e_no">
+                                    </div>
+                                    <input type="hidden" name="type" value="<?php echo $_GET['type']?>">
+                                    <div class="form-group">
+                                    <label for="e_status">Status</label>
+                                        <select class="form-control form-control-user" id="e_status" name="e_status">
+                                            <option value="Active" <?php if($status == 'Active'){ echo "selected"; } ?>>Active</option>
+                                            <option value="In-active" <?php if($status == 'In-active'){ echo "selected"; } ?>>In-active</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success" id="save_e">Update</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -115,64 +138,8 @@ include("supported/session.php");
         <i class="fas fa-angle-up"></i>
     </a>
 
-
-
-    <div class="modal fade" id="add-driv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New driver</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="driv_form" method="post">
-                    <div class="form-group">
-                        <label for="sup_name">Driver Name</label>
-                        <input type="text" required class="form-control form-control-user" placeholder="Enter Driver Name" id="driv_name" name="driv_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="sup_cont">Contact No.</label>
-                        <input type="text" required class="form-control form-control-user" placeholder="Enter Driver Contact No." id="driv_cont" name="driv_cont">
-                    </div>
-                    <div class="form-group">
-                        <label for="sup_cont">Vehicle No.</label>
-                        <input type="text" required class="form-control form-control-user" placeholder="Enter Vechile No." id="driv_veh" name="driv_veh">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                <input type="submit" value="Save" class="btn btn-success form-control form-control-user" id="save">
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     
-
-    <div class="modal fade" id="edit-driv" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Drivers</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="driv_e_form" method="post">
-                   
-                </div>
-                <div class="modal-footer">
-                <input type="submit" value="Update" class="btn btn-success form-control form-control-user" id="save_e">
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -183,30 +150,23 @@ include("supported/session.php");
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+
    <!-- Page level plugins -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-                                <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
-                                <script src="vendor/jquery/jquery.min.js"></script>
-                                <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-                                <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
-   
-                                <script>
-                                    new DataTable('#datatable', {
-                                    ordering: true,
-                                    order: [[2, 'asc'], [0, 'asc']]
-                                    });
-                                </script>
-   
 
 </body>
 <script>
-    function get_driv(){
-    $("#show_driv").load("supported/show_driv.php");
+    function get_acct(){
+    $("#show_acct").load("supported/show_acct.php?type=business");
 }
 
     //Start of Document Ready
     $(document).ready(function (){
-        get_driv();
+        get_acct();
         new DataTable('#datatable', {
     ordering: false,
 });
@@ -215,17 +175,26 @@ include("supported/session.php");
     //Start of Edit Modal
     function edit(id)
     {
-        $.post("supported/get_e_driv.php",{id:id},function (e){
-            $("#driv_e_form").html(e);
+        $.post("supported/get_e_acct.php",{id:id},function (e){
+            $("#acct_e_form").html(e);
         });
-        $("#edit-driv").modal('show');
+        $("#edit-acct").modal('show');
+        
+    }
+
+    function add(id,title)
+    {
+        console.log("working");
+        $('#acct_id').val(id);
+        $('#acct_name').val(title);
+        $("#add-cash").modal('show');
         
     }
     //End of Edit Modal
     //Start of Save New Supplier
 $("#save").click(function (){
-    var data = $("#driv_form").serialize();
-    $.post("supported/save_driv.php",data,function(msg){
+    var data = $("#acct_form").serialize();
+    $.post("supported/save_acct.php?type=<?php echo $_GET['type']?>",data,function(msg){
         if(msg == 'done')
         {
             swal({
@@ -233,8 +202,8 @@ $("#save").click(function (){
                   icon: "success",
                   dangerMode: true
                   }).then(function (){
-                      $("#add-driv").modal('hide');
-                      get_driv();
+                      $("#add-acct").modal('hide');
+                      get_acct();
                   });
         }
         if(msg == 'existing')
@@ -248,12 +217,28 @@ $("#save").click(function (){
         }
     });
 });
+
+$("#addCash").click(function (){
+    var data = $("#add_form").serialize();
+    $.post("supported/add_cash.php?type=business",data,function(msg){
+        if(msg == 'ok')
+        {
+            swal({
+                  title: "Saved",
+                  icon: "success",
+                  dangerMode: true
+                  }).then(function (){
+                      $("#add-cash").modal('hide');
+                  });
+        }
+    });
+});
 //End of Save New Supplier
 //Start of Save Edit Supplier
 
     $("#save_e").click(function (){
-        var data_e = $("#driv_e_form").serialize();
-        $.post("supported/save_e_driv.php",data_e,function(msg_e){
+        var data_e = $("#acct_e_form").serialize();
+        $.post("supported/save_e_acct.php",data_e,function(msg_e){
             console.log(msg_e);
             if(msg_e == 'done')
             {
@@ -262,15 +247,15 @@ $("#save").click(function (){
                     icon: "success",
                     dangerMode: true
                     }).then(function (){
-                      $("#edit-driv").modal('hide');
-                      get_driv();
+                      $("#edit-acct").modal('hide');
+                      get_acct();
                     });
             }
             if(msg_e == 'existing')
             {
                 swal({
                     title: "Existing",
-                    text: "Driver with this name has already saved",
+                    text: "Account with this title has already saved",
                     icon: "warning",
                     dangerMode: false
                     }); 
@@ -281,11 +266,15 @@ $("#save").click(function (){
     
 //End of Save Edit Supplier
 
-$("#driv_form").submit(function (){
+$("#acct_form").submit(function (){
    
    return false;
 });
-$("#driv_e_form").submit(function (){
+$("#acct_e_form").submit(function (){
+   
+   return false;
+});
+$("#add_form").submit(function (){
    
    return false;
 });
